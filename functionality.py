@@ -5,6 +5,27 @@ class MyGUI:
     def __init__(self):
         self.root = tk.Tk()
         
+        #Menu bar
+        self.menu = tk.Menu(self.root)
+        #add the menu to the root window
+        self.filemenu = tk.Menu(self.menu, tearoff=0)
+        self.filemenu.add_command(label="Close", command=self.on_closing)
+        
+        #add_separator() method is used to add a separator line in the menu, which visually separates different groups of menu items. In this case, it separates the "Close" option from the "Close Without Question" option.
+        self.filemenu.add_separator()
+        self.filemenu.add_command(label="Close Without Question", command=exit)
+        
+        self.actionmenu = tk.Menu(self.menu, tearoff=0)
+        self.actionmenu.add_command(label="Show Message", command=self.show_message)
+        
+        #add_cascade() method is used to add a submenu (filemenu) to the main menu (menu) with the label "File". The tearoff=0 argument prevents the submenu from being detachable.
+        self.menu.add_cascade(label="File", menu=self.filemenu)
+        self.menu.add_cascade(label="Actions", menu=self.actionmenu)
+        
+        #config() method is used to set the menu of the root window to the menu we created. This will display the menu bar in the application window.
+        self.root.config(menu=self.menu)
+        
+
         self.label = tk.Label(self.root, text="Your Message", font=("Arial", 24))
         self.label.pack(pady=20, padx=20) 
         
@@ -20,6 +41,9 @@ class MyGUI:
         
         self.button = tk.Button(self.root, text="Show Message!", font=("Arial", 18), command=self.show_message)
         self.button.pack(pady=10, padx=10)
+        
+        self.clearbutton = tk.Button(self.root, text="Clear Textbox", font=("Arial", 18), command=lambda: self.textbox.delete("1.0", tk.END))
+        self.clearbutton.pack(pady=10, padx=10)
         
         #protocol method is used to handle the window close event. When the user tries to close the window, the on_closing method will be called, which will ask the user for confirmation before closing the window.
         self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
