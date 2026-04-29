@@ -9,6 +9,7 @@ class MyGUI:
         self.label.pack(pady=20, padx=20) 
         
         self.textbox = tk.Text(self.root, height=5, font=("Arial", 16))
+        self.textbox.bind("<KeyPress>", self.shortcut)
         self.textbox.pack(padx=10, pady=10)
         
         #checkbox
@@ -29,4 +30,10 @@ class MyGUI:
             print(self.textbox.get("1.0", tk.END))
         else:
             messagebox.showinfo(title="Message", message=self.textbox.get("1.0", tk.END))
+            
+    def shortcut(self, event):
+        #event.state checks if the Control key is pressed (state 12 corresponds to the Control key)
+        #event.keysym checks if the "Enter" key is pressed
+        if event.state == 12 and event.keysym == "Return":
+            self.show_message()
 MyGUI()
